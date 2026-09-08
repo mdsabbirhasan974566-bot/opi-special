@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>একটি ছোট্ট কথা — অপির জন্য 💌</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Noto Sans Bengali", "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #160b1f, #35142d, #1a1028);
+      color: white;
+      overflow: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      min-height: 650px;
+      padding: 35px 25px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.45);
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide {
+      display: none;
+      animation: fadeIn 0.7s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .emoji {
+      font-size: 65px;
+      margin-bottom: 20px;
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 27px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.9;
+      color: #f7eaf3;
+      margin-bottom: 18px;
+    }
+
+    .highlight {
+      color: #ffb7d9;
+      font-weight: bold;
+    }
+
+    .photo-box {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      border: 4px solid rgba(255,255,255,0.7);
+      overflow: hidden;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 13px 25px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #ff4f91, #b83280);
+      box-shadow: 0 8px 25px rgba(255, 79, 145, 0.25);
+      transition: 0.25s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .back {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .music {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 20;
+      padding: 10px 17px;
+      font-size: 14px;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 18px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .dot {
+      height: 8px;
+      width: 8px;
+      margin: 4px;
+      background: rgba(255,255,255,0.35);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.active {
+      background: #ff8fba;
+      transform: scale(1.3);
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      font-size: 22px;
+      animation: rise 8s linear infinite;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .final {
+      font-size: 24px;
+      color: #ffd2e5;
+      line-height: 1.7;
+      margin: 20px 0;
+    }
+
+    .signature {
+      margin-top: 25px;
+      color: #ffb7d9;
+      font-size: 17px;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        min-height: 600px;
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .emoji {
+        font-size: 55px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Music Button -->
+  <button class="music" onclick="toggleMusic()">🎵 গান চালু করুন</button>
+
+  <!--
+  পরে এখানে তোমার MP3 ফাইল যোগ করা যাবে।
+  এখন আপাতত গান রাখা হয়নি।
+  -->
+
+  <div class="container">
+
+    <div class="card">
+
+      <!-- Slide 1 -->
+      <div class="slide active">
+        <div class="emoji">🌸</div>
+
+        <h1>হাই অপি… 😊</h1>
+
+        <p>
+          তোমার জন্য ছোট্ট একটা সারপ্রাইজ আছে।
+        </p>
+
+        <p>
+          কয়েকটা কথা ছিল,
+          যেগুলো সরাসরি বলতে একটু সাহস লাগছিল…
+          তাই ভাবলাম এভাবেই বলি। 💌
+        </p>
+
+        <div class="buttons">
+          <button onclick="nextSlide()">শুরু করি 💕</button>
+        </div>
+      </div>
+
+
+      <!-- Slide 2 -->
+      <div class="slide">
+
+        <div class="emoji">✨</div>
+
+        <h2>একটা ছোট্ট সত্যি</h2>
+
+        <p>
+          আমাদের দেখা হয়েছে হয়তো মাত্র
+          <span class="highlight">এক–দুবার</span>।
+        </p>
+
+        <p>
+          আমাদের মধ্যে তেমন কথাও হয়নি।
+        </p>
+
+        <p>
+          তবুও জানি না কেন…
+          তোমাকে আমার বেশ ভালো লেগেছে। 🌷
+        </p>
+
+        <div class="buttons">
+          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
+          <button onclick="nextSlide()">পরেরটা →</button>
+        </div>
+
+      </div>
+
+
+      <!-- Slide 3 -->
+      <div class="slide">
+
+        <div class="emoji">💭</div>
+
+        <h2>হয়তো একটু অদ্ভুত লাগতে পারে…</h2>
+
+        <p>
+          তুমি হয়তো ভাবতে পারো—
+        </p>
+
+        <p class="highlight">
+          “এত কম পরিচয়ে এমন অনুভূতি কীভাবে?”
+        </p>
+
+        <p>
+          সত্যি বলতে, এর কোনো সুন্দর ব্যাখ্যা
+          আমার কাছেও নেই।
+        </p>
+
+        <p>
+          কিছু মানুষকে খুব অল্প সময় দেখেও
+          কেন যেন মনে থেকে যায়। ❤️
+        </p>
+
+        <div class="buttons">
+          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
+          <button onclick="nextSlide()">পরেরটা →</button>
+        </div>
+
+      </div>
+
+
+      <!-- Slide 4 -->
+      <div class="slide">
+
+        <div class="emoji">🌷</div>
+
+        <h2>তোমাকে আরও একটু জানতে চাই</h2>
+
+        <p>
+          আমি তোমাকে নিয়ে কোনো বড় বড় কথা
+          বলতে চাই না।
+        </p>
+
+        <p>
+          শুধু এটুকু বলতে চাই—
+        </p>
+
+        <p class="highlight">
+          তোমাকে আরও একটু জানতে ইচ্ছে করে। 😊
+        </p>
+
+        <p>
+          তোমার সঙ্গে একটু কথা বলতে ইচ্ছে করে,
+          তোমাকে একজন মানুষ হিসেবে চিনতে ইচ্ছে করে।
+        </p>
+
+        <div class="buttons">
+          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
+          <button onclick="nextSlide()">পরেরটা →</button>
+        </div>
+
+      </div>
+
+
+      <!-- Slide 5 -->
+      <div class="slide">
+
+        <div class="emoji">❤️</div>
+
+        <h2>আসল কথাটা…</h2>
+
+        <p>
+          তাই আজ একটু সাহস করে বলছি…
+        </p>
+
+        <p class="final">
+          অপি,<br>
+          <span class="highlight">
+            তোমাকে আমার ভালো লেগেছে। ❤️
+          </span>
+        </p>
+
+        <p>
+          আমি জানি না তুমি আমাকে কীভাবে দেখো,
+          আর তোমার অনুভূতিটাও আমি জানি না।
+        </p>
+
+        <p>
+          তবুও নিজের মনের কথাটা
+          তোমাকে জানাতে চেয়েছিলাম। 🌸
+        </p>
+
+        <div class="buttons">
+          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
+          <button onclick="nextSlide()">শেষ কথাটা →</button>
+        </div>
+
+      </div>
+
+
+      <!-- Slide 6 -->
+      <div class="slide">
+
+        <div class="emoji">🥰</div>
+
+        <h2>একটা ছোট্ট প্রশ্ন…</h2>
+
+        <p class="final">
+          তুমি কি আমাকে
+          একটু একটু করে
+          জানার সুযোগ দেবে?
+        </p>
+
+        <p>
+          হয়তো বন্ধুত্ব দিয়ে শুরু করতে পারি…
+          তারপর সময়ই আমাদের গল্পটা
+          কোথায় নিয়ে যায় সেটা দেখা যাবে। 🌸
+        </p>
+
+        <div class="buttons">
+          <button onclick="nextSlide()">হ্যাঁ, কথা বলা যেতে পারে 😊</button>
+          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
+        </div>
+
+      </div>
+
+
+      <!-- Slide 7 -->
+      <div class="slide">
+
+        <div class="emoji">💌</div>
+
+        <h2>শেষে শুধু এটুকু…</h2>
+
+        <p>
+          তোমার উত্তর যেটাই হোক,
+          আমি সেটাকে সম্মান করব।
+        </p>
+
+        <p>
+          কোনো চাপ নেই,
+          কোনো বাধ্যবাধকতাও নেই।
+        </p>
+
+        <p class="final">
+          শুধু চেয়েছিলাম,
+          আমার মনের কথাটা
+          তুমি জানো। ❤️
+        </p>
+
+        <p class="signature">
+          — একজন মানুষ,<br>
+          যে তোমাকে প্রথম দেখাতেই
+          একটু বেশি পছন্দ করে ফেলেছে। 🌷
+        </p>
+
+        <div class="buttons">
+          <button class="back" onclick="prevSlide()">← আবার দেখো</button>
+        </div>
+
+      </div>
+
+
+      <!-- Dots -->
+      <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+
+    let currentSlide = 0;
+
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+
+    function showSlide(index) {
+
+      if (index < 0) {
+        index = 0;
+      }
+
+      if (index >= slides.length) {
+        index = slides.length - 1;
+      }
+
+      slides.forEach(slide => {
+        slide.classList.remove("active");
+      });
+
+      dots.forEach(dot => {
+        dot.classList.remove("active");
+      });
+
+      slides[index].classList.add("active");
+      dots[index].classList.add("active");
+
+      currentSlide = index;
+    }
+
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+
+    // Floating hearts
+
+    function createHeart() {
+
+      const heart = document.createElement("div");
+
+      heart.className = "heart";
+
+      const hearts = ["❤️", "💕", "💗", "💖", "🌸", "✨"];
+
+      heart.innerHTML =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+      heart.style.left =
+        Math.random() * 100 + "vw";
+
+      heart.style.animationDuration =
+        (5 + Math.random() * 5) + "s";
+
+      heart.style.fontSize =
+        (15 + Math.random() * 20) + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 10000);
+    }
+
+    setInterval(createHeart, 700);
+
+
+    // Music system
+
+    let musicPlaying = false;
+
+    function toggleMusic() {
+
+      alert(
+        "🎵 গান যোগ করার পর এই বাটনে চাপ দিলে গান চালু হবে।"
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
