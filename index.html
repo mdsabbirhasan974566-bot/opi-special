@@ -4,88 +4,148 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>একটি ছোট্ট কথা — অপির জন্য 💌</title>
+  <title>অপির জন্য একটি ছোট্ট কথা 💌</title>
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       min-height: 100vh;
-      font-family: "Noto Sans Bengali", "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #160b1f, #35142d, #1a1028);
-      color: white;
       overflow: hidden;
+      font-family: "Noto Sans Bengali", "Segoe UI", sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 20%, #542044 0%, transparent 35%),
+        radial-gradient(circle at 80% 80%, #3b1640 0%, transparent 35%),
+        linear-gradient(135deg, #100612, #1d091c, #0d0713);
     }
+
+    /* Background glow */
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    body::before {
+      background: #ff4f91;
+      top: -100px;
+      left: -100px;
+    }
+
+    body::after {
+      background: #8c4cff;
+      bottom: -120px;
+      right: -100px;
+    }
+
+    /* Music button */
+
+    .music-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 18px;
+      color: white;
+      background: rgba(255, 72, 143, 0.75);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(255, 50, 130, 0.25);
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .music-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Main */
 
     .container {
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       padding: 20px;
-      position: relative;
     }
 
     .card {
       width: 100%;
       max-width: 520px;
       min-height: 650px;
-      padding: 35px 25px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.10);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      box-shadow: 0 20px 70px rgba(0,0,0,0.45);
-      text-align: center;
       position: relative;
-      z-index: 5;
+      padding: 40px 25px 55px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
+
+      border-radius: 32px;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      box-shadow:
+        0 25px 80px rgba(0,0,0,0.5),
+        inset 0 0 30px rgba(255,255,255,0.025);
     }
+
+    /* Slides */
 
     .slide {
       display: none;
-      animation: fadeIn 0.7s ease;
+      width: 100%;
+      text-align: center;
+      animation: slideIn 0.7s ease;
     }
 
     .slide.active {
       display: block;
     }
 
-    @keyframes fadeIn {
+    @keyframes slideIn {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(25px) scale(0.98);
       }
+
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
     .emoji {
       font-size: 65px;
       margin-bottom: 20px;
-      animation: floating 3s ease-in-out infinite;
+      animation: float 3s ease-in-out infinite;
     }
 
-    @keyframes floating {
-      0%, 100% {
+    @keyframes float {
+      0%,100% {
         transform: translateY(0);
       }
+
       50% {
         transform: translateY(-10px);
       }
     }
 
     h1 {
-      font-size: 32px;
+      font-size: 34px;
       margin-bottom: 20px;
     }
 
@@ -98,100 +158,132 @@
       font-size: 18px;
       line-height: 1.9;
       color: #f7eaf3;
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
-    .highlight {
-      color: #ffb7d9;
+    .pink {
+      color: #ffafd1;
       font-weight: bold;
     }
 
-    .photo-box {
+    .big-text {
+      font-size: 25px;
+      line-height: 1.8;
+      color: #ffd2e5;
+      margin: 20px 0;
+      font-weight: 600;
+    }
+
+    /* Photo */
+
+    .photo-container {
       width: 190px;
       height: 190px;
-      border-radius: 50%;
       margin: 0 auto 25px;
-      border: 4px solid rgba(255,255,255,0.7);
+      border-radius: 50%;
       overflow: hidden;
-      background: rgba(255,255,255,0.08);
+
+      border: 4px solid rgba(255,255,255,0.8);
+
+      background:
+        linear-gradient(135deg, #ff6fa8, #8f4cff);
+
+      box-shadow:
+        0 0 35px rgba(255,90,160,0.3);
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 55px;
     }
 
-    .photo-box img {
+    .photo-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: none;
     }
+
+    .photo-container.has-image img {
+      display: block;
+    }
+
+    .photo-container.has-image .photo-placeholder {
+      display: none;
+    }
+
+    /* Buttons */
 
     .buttons {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 12px;
-      margin-top: 25px;
       flex-wrap: wrap;
+      margin-top: 28px;
     }
 
-    button {
+    button.action {
       border: none;
-      padding: 13px 25px;
       border-radius: 30px;
+      padding: 13px 24px;
+      color: white;
       font-size: 16px;
       cursor: pointer;
-      color: white;
-      background: linear-gradient(135deg, #ff4f91, #b83280);
-      box-shadow: 0 8px 25px rgba(255, 79, 145, 0.25);
+
+      background: linear-gradient(135deg, #ff4f91, #bd3c91);
+
+      box-shadow:
+        0 8px 25px rgba(255,65,145,0.25);
+
       transition: 0.25s;
     }
 
-    button:hover {
-      transform: scale(1.05);
+    button.action:hover {
+      transform: translateY(-2px) scale(1.03);
     }
 
-    .back {
-      background: rgba(255,255,255,0.15);
+    button.back {
+      background: rgba(255,255,255,0.12);
+      box-shadow: none;
     }
 
-    .music {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 20;
-      padding: 10px 17px;
-      font-size: 14px;
-    }
+    /* Dots */
 
     .dots {
       position: absolute;
-      bottom: 18px;
+      bottom: 22px;
       left: 0;
       width: 100%;
       text-align: center;
     }
 
     .dot {
-      height: 8px;
-      width: 8px;
-      margin: 4px;
-      background: rgba(255,255,255,0.35);
-      border-radius: 50%;
       display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      transition: 0.3s;
     }
 
     .dot.active {
+      width: 10px;
+      height: 10px;
       background: #ff8fba;
-      transform: scale(1.3);
+      box-shadow: 0 0 10px #ff8fba;
     }
+
+    /* Floating hearts */
 
     .heart {
       position: fixed;
-      bottom: -30px;
-      font-size: 22px;
-      animation: rise 8s linear infinite;
-      opacity: 0.7;
-      z-index: 1;
+      bottom: -40px;
+      z-index: 2;
+      pointer-events: none;
+      animation: rise 8s linear forwards;
     }
 
     @keyframes rise {
@@ -205,32 +297,37 @@
       }
 
       100% {
-        transform: translateY(-110vh) rotate(360deg);
+        transform: translateY(-115vh) rotate(360deg);
         opacity: 0;
       }
     }
 
-    .final {
-      font-size: 24px;
-      color: #ffd2e5;
-      line-height: 1.7;
-      margin: 20px 0;
-    }
+    /* Final */
 
     .signature {
-      margin-top: 25px;
       color: #ffb7d9;
+      margin-top: 25px;
       font-size: 17px;
+      line-height: 1.8;
     }
 
+    .small {
+      font-size: 14px;
+      color: #cdbac7;
+      margin-top: 15px;
+    }
+
+    /* Mobile */
+
     @media (max-width: 500px) {
+
       .card {
-        min-height: 600px;
-        padding: 30px 20px;
+        min-height: 610px;
+        padding: 35px 20px 55px;
       }
 
       h1 {
-        font-size: 28px;
+        font-size: 29px;
       }
 
       h2 {
@@ -239,10 +336,26 @@
 
       p {
         font-size: 16px;
+        line-height: 1.8;
       }
 
       .emoji {
         font-size: 55px;
+      }
+
+      .big-text {
+        font-size: 22px;
+      }
+
+      .photo-container {
+        width: 165px;
+        height: 165px;
+      }
+
+      .music-btn {
+        top: 12px;
+        right: 12px;
+        font-size: 13px;
       }
     }
   </style>
@@ -250,20 +363,32 @@
 
 <body>
 
-  <!-- Music Button -->
-  <button class="music" onclick="toggleMusic()">🎵 গান চালু করুন</button>
+  <!-- =========================
+       MUSIC
+       ========================= -->
 
-  <!--
-  পরে এখানে তোমার MP3 ফাইল যোগ করা যাবে।
-  এখন আপাতত গান রাখা হয়নি।
-  -->
+  <audio id="music" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-btn" id="musicButton" onclick="toggleMusic()">
+    🎵 গান চালু করুন
+  </button>
+
+
+  <!-- =========================
+       MAIN CONTENT
+       ========================= -->
 
   <div class="container">
 
     <div class="card">
 
-      <!-- Slide 1 -->
-      <div class="slide active">
+
+      <!-- SLIDE 1 -->
+
+      <section class="slide active">
+
         <div class="emoji">🌸</div>
 
         <h1>হাই অপি… 😊</h1>
@@ -275,17 +400,27 @@
         <p>
           কয়েকটা কথা ছিল,
           যেগুলো সরাসরি বলতে একটু সাহস লাগছিল…
-          তাই ভাবলাম এভাবেই বলি। 💌
+        </p>
+
+        <p>
+          তাই ভাবলাম,
+          এভাবেই বলি। 💌
         </p>
 
         <div class="buttons">
-          <button onclick="nextSlide()">শুরু করি 💕</button>
+
+          <button class="action" onclick="nextSlide()">
+            শুরু করি 💕
+          </button>
+
         </div>
-      </div>
+
+      </section>
 
 
-      <!-- Slide 2 -->
-      <div class="slide">
+      <!-- SLIDE 2 -->
+
+      <section class="slide">
 
         <div class="emoji">✨</div>
 
@@ -293,7 +428,7 @@
 
         <p>
           আমাদের দেখা হয়েছে হয়তো মাত্র
-          <span class="highlight">এক–দুবার</span>।
+          <span class="pink">এক–দুবার</span>।
         </p>
 
         <p>
@@ -306,15 +441,23 @@
         </p>
 
         <div class="buttons">
-          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
-          <button onclick="nextSlide()">পরেরটা →</button>
+
+          <button class="action back" onclick="prevSlide()">
+            ← ফিরে যাও
+          </button>
+
+          <button class="action" onclick="nextSlide()">
+            পরেরটা →
+          </button>
+
         </div>
 
-      </div>
+      </section>
 
 
-      <!-- Slide 3 -->
-      <div class="slide">
+      <!-- SLIDE 3 -->
+
+      <section class="slide">
 
         <div class="emoji">💭</div>
 
@@ -324,13 +467,13 @@
           তুমি হয়তো ভাবতে পারো—
         </p>
 
-        <p class="highlight">
+        <p class="pink">
           “এত কম পরিচয়ে এমন অনুভূতি কীভাবে?”
         </p>
 
         <p>
-          সত্যি বলতে, এর কোনো সুন্দর ব্যাখ্যা
-          আমার কাছেও নেই।
+          সত্যি বলতে,
+          এর কোনো সুন্দর ব্যাখ্যা আমার কাছেও নেই।
         </p>
 
         <p>
@@ -339,19 +482,40 @@
         </p>
 
         <div class="buttons">
-          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
-          <button onclick="nextSlide()">পরেরটা →</button>
+
+          <button class="action back" onclick="prevSlide()">
+            ← ফিরে যাও
+          </button>
+
+          <button class="action" onclick="nextSlide()">
+            পরেরটা →
+          </button>
+
         </div>
 
-      </div>
+      </section>
 
 
-      <!-- Slide 4 -->
-      <div class="slide">
+      <!-- SLIDE 4 - PHOTO -->
 
-        <div class="emoji">🌷</div>
+      <section class="slide">
 
-        <h2>তোমাকে আরও একটু জানতে চাই</h2>
+        <div class="photo-container" id="photoBox">
+
+          <!--
+            GitHub-এ পরে opi.jpg আপলোড করলে
+            নিচের ছবিটি নিজে থেকেই দেখাবে।
+          -->
+
+          <img src="opi.jpg" alt="Opi">
+
+          <div class="photo-placeholder">
+            🌸
+          </div>
+
+        </div>
+
+        <h2>তোমাকে আরও একটু জানতে চাই 🌷</h2>
 
         <p>
           আমি তোমাকে নিয়ে কোনো বড় বড় কথা
@@ -362,7 +526,7 @@
           শুধু এটুকু বলতে চাই—
         </p>
 
-        <p class="highlight">
+        <p class="pink">
           তোমাকে আরও একটু জানতে ইচ্ছে করে। 😊
         </p>
 
@@ -372,15 +536,23 @@
         </p>
 
         <div class="buttons">
-          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
-          <button onclick="nextSlide()">পরেরটা →</button>
+
+          <button class="action back" onclick="prevSlide()">
+            ← ফিরে যাও
+          </button>
+
+          <button class="action" onclick="nextSlide()">
+            পরেরটা →
+          </button>
+
         </div>
 
-      </div>
+      </section>
 
 
-      <!-- Slide 5 -->
-      <div class="slide">
+      <!-- SLIDE 5 -->
+
+      <section class="slide">
 
         <div class="emoji">❤️</div>
 
@@ -390,12 +562,10 @@
           তাই আজ একটু সাহস করে বলছি…
         </p>
 
-        <p class="final">
+        <div class="big-text">
           অপি,<br>
-          <span class="highlight">
-            তোমাকে আমার ভালো লেগেছে। ❤️
-          </span>
-        </p>
+          তোমাকে আমার ভালো লেগেছে। ❤️
+        </div>
 
         <p>
           আমি জানি না তুমি আমাকে কীভাবে দেখো,
@@ -408,25 +578,33 @@
         </p>
 
         <div class="buttons">
-          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
-          <button onclick="nextSlide()">শেষ কথাটা →</button>
+
+          <button class="action back" onclick="prevSlide()">
+            ← ফিরে যাও
+          </button>
+
+          <button class="action" onclick="nextSlide()">
+            শেষ কথাটা → 
+          </button>
+
         </div>
 
-      </div>
+      </section>
 
 
-      <!-- Slide 6 -->
-      <div class="slide">
+      <!-- SLIDE 6 -->
+
+      <section class="slide">
 
         <div class="emoji">🥰</div>
 
         <h2>একটা ছোট্ট প্রশ্ন…</h2>
 
-        <p class="final">
-          তুমি কি আমাকে
-          একটু একটু করে
+        <div class="big-text">
+          তুমি কি আমাকে<br>
+          একটু একটু করে<br>
           জানার সুযোগ দেবে?
-        </p>
+        </div>
 
         <p>
           হয়তো বন্ধুত্ব দিয়ে শুরু করতে পারি…
@@ -435,15 +613,23 @@
         </p>
 
         <div class="buttons">
-          <button onclick="nextSlide()">হ্যাঁ, কথা বলা যেতে পারে 😊</button>
-          <button class="back" onclick="prevSlide()">← ফিরে যাও</button>
+
+          <button class="action" onclick="nextSlide()">
+            হ্যাঁ, কথা বলা যেতে পারে 😊
+          </button>
+
+          <button class="action back" onclick="prevSlide()">
+            ← ফিরে যাও
+          </button>
+
         </div>
 
-      </div>
+      </section>
 
 
-      <!-- Slide 7 -->
-      <div class="slide">
+      <!-- SLIDE 7 -->
+
+      <section class="slide">
 
         <div class="emoji">💌</div>
 
@@ -459,27 +645,33 @@
           কোনো বাধ্যবাধকতাও নেই।
         </p>
 
-        <p class="final">
-          শুধু চেয়েছিলাম,
-          আমার মনের কথাটা
+        <div class="big-text">
+          শুধু চেয়েছিলাম,<br>
+          আমার মনের কথাটা<br>
           তুমি জানো। ❤️
-        </p>
-
-        <p class="signature">
-          — একজন মানুষ,<br>
-          যে তোমাকে প্রথম দেখাতেই
-          একটু বেশি পছন্দ করে ফেলেছে। 🌷
-        </p>
-
-        <div class="buttons">
-          <button class="back" onclick="prevSlide()">← আবার দেখো</button>
         </div>
 
-      </div>
+        <div class="signature">
+          — একজন মানুষ,<br>
+          যে তোমাকে প্রথম দেখাতেই<br>
+          একটু বেশি পছন্দ করে ফেলেছে। 🌷
+        </div>
+
+        <div class="buttons">
+
+          <button class="action back" onclick="prevSlide()">
+            ← আবার দেখো
+          </button>
+
+        </div>
+
+      </section>
 
 
-      <!-- Dots -->
+      <!-- SLIDE DOTS -->
+
       <div class="dots">
+
         <span class="dot active"></span>
         <span class="dot"></span>
         <span class="dot"></span>
@@ -487,11 +679,17 @@
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot"></span>
+
       </div>
 
     </div>
+
   </div>
 
+
+  <!-- =========================
+       JAVASCRIPT
+       ========================= -->
 
   <script>
 
@@ -499,6 +697,14 @@
 
     const slides = document.querySelectorAll(".slide");
     const dots = document.querySelectorAll(".dot");
+
+    const music = document.getElementById("music");
+    const musicButton = document.getElementById("musicButton");
+
+
+    /* =========================
+       SLIDE SYSTEM
+       ========================= */
 
     function showSlide(index) {
 
@@ -510,11 +716,11 @@
         index = slides.length - 1;
       }
 
-      slides.forEach(slide => {
+      slides.forEach(function(slide) {
         slide.classList.remove("active");
       });
 
-      dots.forEach(dot => {
+      dots.forEach(function(dot) {
         dot.classList.remove("active");
       });
 
@@ -526,20 +732,84 @@
 
 
     function nextSlide() {
+
       if (currentSlide < slides.length - 1) {
         showSlide(currentSlide + 1);
       }
+
     }
 
 
     function prevSlide() {
+
       if (currentSlide > 0) {
         showSlide(currentSlide - 1);
       }
+
     }
 
 
-    // Floating hearts
+    /* =========================
+       MUSIC SYSTEM
+       ========================= */
+
+    async function toggleMusic() {
+
+      try {
+
+        if (music.paused) {
+
+          await music.play();
+
+          musicButton.innerHTML =
+            "🔊 গান বন্ধ করুন";
+
+        } else {
+
+          music.pause();
+
+          musicButton.innerHTML =
+            "🎵 গান চালু করুন";
+
+        }
+
+      } catch (error) {
+
+        alert(
+          "🎵 গানটি চালু করা যাচ্ছে না।\n\n" +
+          "দয়া করে নিশ্চিত করুন যে GitHub-এ " +
+          "music.mp3 ফাইলটি index.html-এর একই folder-এ আছে।"
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       PHOTO CHECK
+       ========================= */
+
+    const photoBox = document.getElementById("photoBox");
+    const photo = photoBox.querySelector("img");
+
+    photo.onload = function() {
+
+      photoBox.classList.add("has-image");
+
+    };
+
+
+    photo.onerror = function() {
+
+      photoBox.classList.remove("has-image");
+
+    };
+
+
+    /* =========================
+       FLOATING HEARTS
+       ========================= */
 
     function createHeart() {
 
@@ -547,41 +817,42 @@
 
       heart.className = "heart";
 
-      const hearts = ["❤️", "💕", "💗", "💖", "🌸", "✨"];
+      const symbols = [
+        "❤️",
+        "💕",
+        "💗",
+        "💖",
+        "🌸",
+        "✨"
+      ];
 
       heart.innerHTML =
-        hearts[Math.floor(Math.random() * hearts.length)];
+        symbols[
+          Math.floor(Math.random() * symbols.length)
+        ];
 
       heart.style.left =
         Math.random() * 100 + "vw";
 
-      heart.style.animationDuration =
-        (5 + Math.random() * 5) + "s";
-
       heart.style.fontSize =
         (15 + Math.random() * 20) + "px";
 
+      heart.style.animationDuration =
+        (5 + Math.random() * 5) + "s";
+
       document.body.appendChild(heart);
 
-      setTimeout(() => {
+      setTimeout(function() {
+
         heart.remove();
+
       }, 10000);
+
     }
+
 
     setInterval(createHeart, 700);
 
-
-    // Music system
-
-    let musicPlaying = false;
-
-    function toggleMusic() {
-
-      alert(
-        "🎵 গান যোগ করার পর এই বাটনে চাপ দিলে গান চালু হবে।"
-      );
-
-    }
 
   </script>
 
